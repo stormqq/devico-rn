@@ -1,9 +1,10 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
+import { Tabs } from "expo-router";
+import React from "react";
 
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { TabBarIcon } from "@/components/navigation/TabBarIcon";
+import { Colors } from "@/constants/Colors";
+import { useColorScheme } from "@/hooks/useColorScheme";
+import { StyleSheet, Text, View } from "react-native";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -11,27 +12,87 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
         headerShown: false,
-      }}>
+        tabBarShowLabel: false,
+        tabBarStyle: {
+          position: "absolute",
+          bottom: 20,
+          left: 20,
+          right: 20,
+          borderRadius: 20,
+          height: 60,
+        },
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
+            <View style={{ ...styles.sideNavTab }}>
+              <TabBarIcon
+                name={focused ? "home" : "home-outline"}
+                color={color}
+              />
+              <Text style={{
+                color: Colors[colorScheme ?? "light"].text
+              }}>HOME</Text>
+            </View>
           ),
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="send"
         options={{
-          title: 'Explore',
+          title: "Send",
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+            <View style={{ ...styles.middleNavTab }}>
+              <TabBarIcon
+                name={focused ? "send" : "send-outline"}
+                color={color}
+              />
+              <Text style={{
+                color: Colors[colorScheme ?? "light"].text
+              }}>SEND</Text>
+            </View>
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          tabBarIcon: ({ color, focused }) => (
+            <View style={{ ...styles.sideNavTab }}>
+            <TabBarIcon
+              name={focused ? "code-slash" : "code-slash-outline"}
+              color={color}
+            />
+            <Text style={{
+              color: Colors[colorScheme ?? "light"].text
+            }}>SETTINGS</Text>
+            </View>
           ),
         }}
       />
     </Tabs>
   );
 }
+
+const styles = StyleSheet.create({
+  sideNavTab: {
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 4,
+  },
+  middleNavTab: {
+    position: "absolute",
+    bottom: 20,
+    borderRadius: 20, 
+    backgroundColor: "#007bff", 
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 4,
+    width: 100, 
+    height: 60,
+  },
+});
