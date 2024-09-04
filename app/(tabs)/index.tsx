@@ -1,28 +1,57 @@
-import { Image, StyleSheet, Platform } from 'react-native';
-
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import { Ionicons } from '@expo/vector-icons';
+import {
+  FlatList,
+  RefreshControl,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import { useMarketCoins } from "@/api/marketCoins";
+import { useMemo, useState } from "react";
+import { filterBySearchQuery } from "@/helpers/filterBySearchQuery";
+import { FlashList } from "@shopify/flash-list";
+import CoinItem from "@/components/coins/CoinItem";
+import SearchBar from "@/components/SearchBar";
+import { CoinMarkets } from "@/types/coinMarkets";
+import { Button, Theme } from "tamagui";
 
 export default function HomeScreen() {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const { data, refetch, isLoading } = useMarketCoins();
+
+  const filteredCoins = useMemo(() => {
+    return filterBySearchQuery(data, searchQuery);
+  }, [data, searchQuery]);
+
+  console.log("all coins:", data);
+  // console.log("filtered coins:", filteredCoins);
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={<Ionicons size={310} name="home-outline" style={styles.headerImage} />}>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Home screen</ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <SafeAreaView>
+      <SearchBar handleSearch={setSearchQuery} />
+      <Theme name='green'>
+      </Theme>
+      <View>
+        <FlashList
+          data={filteredCoins}
+          renderItem={({ item }: { item: CoinMarkets }) => (
+            <CoinItem coin={item} />
+          )}
+          refreshControl={
+            <RefreshControl onRefresh={refetch} refreshing={isLoading} />
+          }
+        />
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     gap: 8,
   },
   stepContainer: {
@@ -30,9 +59,9 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   headerImage: {
-    color: '#808080',
+    color: "#808080",
     bottom: -90,
     left: -35,
-    position: 'absolute',
+    position: "absolute",
   },
 });

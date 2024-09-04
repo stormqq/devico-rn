@@ -16,12 +16,8 @@ export default function TabLayout() {
         headerShown: false,
         tabBarShowLabel: false,
         tabBarStyle: {
-          position: "absolute",
-          bottom: 20,
-          left: 20,
-          right: 20,
           borderRadius: 20,
-          height: 60,
+          height: 100,
         },
       }}
     >
@@ -86,7 +82,7 @@ const styles = StyleSheet.create({
   },
   middleNavTab: {
     position: "absolute",
-    bottom: 20,
+    bottom: 30,
     borderRadius: 20, 
     backgroundColor: "#007bff", 
     alignItems: "center",
