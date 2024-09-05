@@ -36,6 +36,7 @@ export default function HomeScreen() {
           renderItem={({ item }: { item: CoinMarkets }) => (
             <CoinItem coin={item} />
           )}
+          estimatedItemSize={200}
           refreshControl={
             <RefreshControl onRefresh={refetch} refreshing={isLoading} />
           }
