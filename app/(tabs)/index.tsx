@@ -1,9 +1,7 @@
 import {
-  FlatList,
   RefreshControl,
   SafeAreaView,
   StyleSheet,
-  Text,
   View,
 } from "react-native";
 import { useMarketCoins } from "@/api/marketCoins";
@@ -13,7 +11,7 @@ import { FlashList } from "@shopify/flash-list";
 import CoinItem from "@/components/coins/CoinItem";
 import SearchBar from "@/components/SearchBar";
 import { CoinMarkets } from "@/types/coinMarkets";
-import { Button, Theme } from "tamagui";
+import { Theme } from "tamagui";
 
 export default function HomeScreen() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -24,7 +22,7 @@ export default function HomeScreen() {
     return filterBySearchQuery(data, searchQuery);
   }, [data, searchQuery]);
 
-  console.log("all coins:", data);
+  // console.log("all coins:", data);
   // console.log("filtered coins:", filteredCoins);
 
   return (

@@ -1,10 +1,8 @@
-// import { Image, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { CoinMarkets } from "@/types/coinMarkets";
 import { Image, styled, Text, View, XStack, YStack } from "tamagui";
 
 export const CoinItem = ({ coin }: { coin: CoinMarkets }) => {
-  // check if first symbol of coin.ath_change_percentage is "-"
   const isCoinPriceFalling = coin.ath_change_percentage.toString()[0] === "-";
   return (
     <Container>
